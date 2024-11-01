@@ -1,1 +1,2 @@
 mssql-django
+python-dotenv
