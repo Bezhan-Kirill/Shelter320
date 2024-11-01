@@ -31,12 +31,16 @@ ALLOWED_HOSTS = []
 # Application definition
 
 INSTALLED_APPS = [
+    # базовый функционал
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+
+    # добавленыые приложения
+    'users',
 ]
 
 MIDDLEWARE = [
@@ -78,7 +82,6 @@ USER = os.getenv('MS_SQL_USER')
 PASSWORD = os.getenv('MS_SQL_KEY')
 SERVER = os.getenv('MS_SQL_SERVER')
 DATABASE = os.getenv('MS_SQL_DATABASE')
-Trusted_Connections=('TRUSTED_CONNECTIONS')
 DATABASES ={
     'default':{
         'TrustServerCertificate':'yes',
@@ -88,10 +91,9 @@ DATABASES ={
         'PASSWORD':PASSWORD,
         'SERVER':SERVER,
         'PORT':'',
-        'Trusted_Connections':Trusted_Connections,
-        'OPTIONS':{
-            'TrustServerCertificate':'yes',
-            'driver':'ODBC Driver 18 for SQL Server'
+        'OPTIONS': {
+            'driver': 'ODBC Driver 18 for SQL Server',
+            "extra_params": "Encrypt=yes;Trusted_Connection=yes;TrustServerCertificate=yes",
         }
     }
 }
@@ -137,3 +139,4 @@ STATIC_URL = 'static/'
 # https://docs.djangoproject.com/en/5.0/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+AUTH_USER_MODEL = 'users.User'
