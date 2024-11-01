@@ -76,19 +76,22 @@ WSGI_APPLICATION = 'config.wsgi.application'
 load_dotenv()
 USER = os.getenv('MS_SQL_USER')
 PASSWORD = os.getenv('MS_SQL_KEY')
-HOST = os.getenv('MS_SQL_SERVER')
+SERVER = os.getenv('MS_SQL_SERVER')
 DATABASE = os.getenv('MS_SQL_DATABASE')
-
-DATABASES = {
-    'default': {
-        'ENGINE': 'mssql',
-        'NAME': DATABASE,
-        'USER': USER,
-        'PASSWORD': PASSWORD,
-        'HOST': HOST,
-        "PORT": '',
-        'OPTIONS': {
-            'driver': 'ODBC Driver 18 for SQL Server'
+Trusted_Connections=('TRUSTED_CONNECTIONS')
+DATABASES ={
+    'default':{
+        'TrustServerCertificate':'yes',
+        'ENGINE':'mssql',
+        'NAME':DATABASE,
+        'USER':USER,
+        'PASSWORD':PASSWORD,
+        'SERVER':SERVER,
+        'PORT':'',
+        'Trusted_Connections':Trusted_Connections,
+        'OPTIONS':{
+            'TrustServerCertificate':'yes',
+            'driver':'ODBC Driver 18 for SQL Server'
         }
     }
 }
