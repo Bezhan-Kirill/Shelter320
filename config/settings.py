@@ -80,7 +80,7 @@ WSGI_APPLICATION = 'config.wsgi.application'
 load_dotenv()
 USER = os.getenv('MS_SQL_USER')
 PASSWORD = os.getenv('MS_SQL_KEY')
-SERVER = os.getenv('MS_SQL_SERVER')
+HOST = os.getenv('MS_SQL_SERVER')
 DATABASE = os.getenv('MS_SQL_DATABASE')
 DATABASES ={
     'default':{
@@ -89,7 +89,7 @@ DATABASES ={
         'NAME':DATABASE,
         'USER':USER,
         'PASSWORD':PASSWORD,
-        'SERVER':SERVER,
+        'SERVER':HOST,
         'PORT':'',
         'OPTIONS': {
             'driver': 'ODBC Driver 18 for SQL Server',
@@ -121,7 +121,7 @@ AUTH_PASSWORD_VALIDATORS = [
 # Internationalization
 # https://docs.djangoproject.com/en/5.0/topics/i18n/
 
-LANGUAGE_CODE = 'en-us'
+LANGUAGE_CODE = 'ru-ru'
 
 TIME_ZONE = 'UTC'
 
