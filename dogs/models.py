@@ -14,7 +14,7 @@ class Category (models.Model):
         verbose_name_plural = 'breeds'
 
 
-class Dogs(models.Model):
+class Dog(models.Model):
     name = models.CharField(max_length=250, verbose_name='dog_name')
     # category = models.CharField(max_length=100, verbose_name='breed')
     category = models.ForeignKey(Category, on_delete=models.CASCADE, verbose_name='breed')
