@@ -146,7 +146,7 @@ STATIC_DIRS = (
 
 MEDIA_URL = '/media/'
 MEDIA_ROOT = (
-    BASE_DIR / 'media',
+    BASE_DIR / 'media'
 )
 
 """Поскольку MEDIA_URL определен как '/media/', то к config.urls.py добавляется следующая строка
