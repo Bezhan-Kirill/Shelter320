@@ -6,4 +6,4 @@ from dogs.models import Dog
 class DogForm(forms.ModelForm):
     class Meta:
         model = Dog
-        field = '__all__'
+        fields = '__all__'
