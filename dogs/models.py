@@ -25,6 +25,12 @@ class Dog(models.Model):
         return f'{self.name} ({self.category})'
 
     class Meta:
-        verbose_name = 'dog'
-        verbose_name_plural = 'dogs'
-
+        verbose_name = 'dog' # понятное человеку имя модели
+        verbose_name_plural = 'dogs' # понятное человеку имя множественное число
+        # abstaract = True # Данная модель станет абстракным базовым классом
+        # app_label = 'dogs' # если модель определена за пределами app., то момжно таким образом ее к нему отнести
+        # ordering =  [-1] # Изменение порядка полей модели
+        # proxy = True # модель будет рассматривться как проки модель
+        # permessions = [] # добавляются группы пользователей которые могут изменять сущность данной модели
+        # db_table = 'doggies' # перезаписть ия таблицы в БД
+        # get_latest_by = 'birth_date' # Возвращает последний объект по порядку возрастания (самая молодая собака)
