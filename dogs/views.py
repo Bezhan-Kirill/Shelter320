@@ -8,25 +8,25 @@ from dogs.forms import DogForm
 
 def index(request):
     context = {
-        'objects_list': Category.objects.all()[:3],
+        'object_list': Category.objects.all()[:3],
         'title': 'Питомник - Главная'
     }
     return render(request, 'dogs/index.html', context)
 
 
 def categories(request):
-        context = {
-            'objects_list': Category.objects.all(),
-            'title': 'Питомник - Все наши поролы'
-        }
-        return render(request, 'dogs/categories.html', context)
+    context = {
+        'object_list': Category.objects.all(),
+        'title': 'Питомник - Все наши породы'
+    }
+    return render(request, 'dogs/categories.html', context)
 
 
 def category_dogs(request, pk):
     category_item = Category.objects.get(pk=pk)
     context = {
         'object_list': Dog.objects.filter(category_id=pk),
-        'title': f'Собваки породы - {category_item.name}',
+        'title': f'Собаки породы - {category_item.name}',
         'category_pk': category_item.pk,
     }
     return render(request, 'dogs/dogs.html', context)
@@ -41,40 +41,39 @@ def dogs_list_view(request):
 
 
 def dog_create_view(request):
-    if request.method == "POST":
-        form = DogForm(request.POST, request.FILES)
-        if form.is_valid():
-            form.save()
-            return HttpResponseRedirect(reverse('dogs:list_dogs'))
-        return render(request, 'dogs/create.html', {'form':DogForm()})
+    # if request.method == 'POST':
+    form = DogForm(request.POST, request.FILES)
+    if form.is_valid():
+        form.save()
+        return HttpResponseRedirect(reverse('dogs:list_dogs'))
+    return render(request, 'dogs/create.html', {'form': DogForm()})
 
 
 def dog_detail_view(request, pk):
     context = {
-        'object':Dog.objects.get(pk=pk),
+        'object': Dog.objects.get(pk=pk),
         'title': 'Вы выбрали данного питомца'
     }
     return render(request, 'dogs/detail.html', context)
 
 
 def dog_update_view(request, pk):
-
     dog_object = get_object_or_404(Dog, pk=pk)
-    if request.method == "POST":
-        form = DogForm(request.POST, request.FILES, instance=dog_object)
-        if form.is_valid():
-            dog_object = form.save()
-            dog_object.save()
-            return HttpResponseRedirect(reverse('dogs:detail_dogs', args={pk: pk}))
-        return render(request, 'dogs/update.html', {
-            'object': dog_object,
-            'form': DogForm(instance=dog_object)
-        }, )
+    # if request.method == "POST":
+    form = DogForm(request.POST, request.FILES, instance=dog_object)
+    if form.is_valid():
+        dog_object = form.save()
+        dog_object.save()
+        return HttpResponseRedirect(reverse('dogs:detail_dogs', args={pk: pk}))
+    return render(request, 'dogs/update.html', {
+        'object': dog_object,
+        'form': DogForm(instance=dog_object)
+    })
 
 
 def dog_delete_view(request, pk):
     dog_object = get_object_or_404(Dog, pk=pk)
-    if request.metho == 'POST':
+    if request.method == 'POST':
         dog_object.delete()
         return HttpResponseRedirect(reverse('dogs:list_dogs'))
     return render(request, 'dogs/delete.html', {
