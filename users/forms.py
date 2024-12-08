@@ -2,12 +2,19 @@ from django import forms
 
 from users.models import User
 
-class UserForm(forms.ModelForm):
+class StyleFormMixin:
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, *kwargs)
+        for field_name, field in self.fields.item():
+            field.widget.attrs['class'] = 'form-control'
+
+class UserForm(StyleFormMixin, forms.ModelForm):
     class Meta:
         model = User
         fields = ('email', 'first_name', 'last_name', 'phone',)
 
-class UserRegisterForm(forms.ModelForm):
+class UserRegisterForm(StyleFormMixin, forms.ModelForm):
     password = forms.CharField(label='Пароль', widget=forms.PasswordInput)
     password2 = forms.CharField(label='Повторите пароль', widget=forms.PasswordInput)
 
@@ -25,3 +32,5 @@ class UserRegisterForm(forms.ModelForm):
 class UserLoginForm(forms.Form):
     email = forms.EmailField()
     password = forms.CharField(widget=forms.PasswordInput)
+
+
