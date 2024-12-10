@@ -2,9 +2,9 @@ from django.http import HttpResponseRedirect, HttpResponse
 
 from django.shortcuts import render, reverse, redirect
 from django.contrib.auth import authenticate, login, logout
-from users.models import User
-from users.forms import UserRegisterForm, UserLoginForm, UserForm
 from django.contrib.auth.decorators import login_required
+
+from users.forms import UserRegisterForm, UserLoginForm, UserUpdateForm
 
 def user_register_view(request):
     if request.method == 'POST':
@@ -33,7 +33,6 @@ def user_login_view(request):
         form = UserLoginForm()
     return render(request, 'users/login_user.html', {'form': form})
 
-
 @login_required
 def user_profile_view(request):
     user_object = request.user
@@ -43,6 +42,24 @@ def user_profile_view(request):
         # 'form': UserForm(instance=user_object),
     }
     return render(request, 'users/user_profile_read_only.html', context)
+
+@login_required
+def user_update_view(request):
+    user_object = request.user
+    if request.method == 'POST':
+        form = UserUpdateForm(request.POST, request.FILES, instance=user_object)
+        if form.is_valid():
+            user_object = form.save()
+            user_object.save()
+            return HttpResponseRedirect(reverse('user:profile_user'))
+        user_name = user_object.first_name
+        context = {
+            'user_object':user_object,
+            'title': f'изменит профиль {user_name}',
+            'form': UserUpdateForm(instance=user_object)
+        }
+        return render(request, 'users/update_user.html', context)
+
 
 def user_logout_view(request):
     logout(request)
