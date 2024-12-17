@@ -1,5 +1,5 @@
 from django.http import HttpResponseRedirect, HttpResponse
-
+from django.urls import reverse
 from django.shortcuts import render, reverse, redirect
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
@@ -7,14 +7,17 @@ from django.contrib.auth.decorators import login_required
 from users.forms import UserRegisterForm, UserLoginForm, UserUpdateForm
 
 def user_register_view(request):
+    form = UserRegisterForm(request.POST)
     if request.method == 'POST':
-        form = UserRegisterForm(request.POST)
         if form.is_valid():
             new_user = form.save()
             new_user.set_password(form.cleaned_data['password'])
             new_user.save()
             return HttpResponseRedirect(reverse('users:login_user'))
-    return render(request, 'users/register_user.html', {'form': UserRegisterForm}, )
+    context = {
+        'form': form
+    }
+    return render(request, 'users/register_user.html', context)
 
 
 
@@ -25,20 +28,28 @@ def user_login_view(request):
             cd = form.cleaned_data
             user = authenticate(email=cd['email'], password=cd['password'])
             if user is not None:
-                login(request, user)
-                return HttpResponseRedirect(reverse('dogs:index'))
-            else:
-                return HttpResponse('Аккаунт неактивен!')
-    else:
-        form = UserLoginForm()
-    return render(request, 'users/login_user.html', {'form': form})
+                if user.is_active:
+                    login(request, user)
+                    return HttpResponseRedirect(reverse('dogs:index'))
+                else:
+                    return HttpResponse('Аккаунт неактивен!')
+
+    form = UserLoginForm
+    context = {
+        'form': form
+    }
+    return render(request, 'users/login_user.html', context)
 
 @login_required
 def user_profile_view(request):
     user_object = request.user
+    if user_object.first_name:
+        user_name = user_object.first_name
+    else:
+        user_name = "Anonymous"
     context = {
         # 'user_object': user_object,
-        'title': f'Ваш профиль {user_object.first_name}',
+        'title': f'Ваш профиль {user_name}',
         # 'form': UserForm(instance=user_object),
     }
     return render(request, 'users/user_profile_read_only.html', context)
@@ -54,7 +65,7 @@ def user_update_view(request):
             return HttpResponseRedirect(reverse('user:profile_user'))
         user_name = user_object.first_name
         context = {
-            'user_object':user_object,
+            'user_object': user_object,
             'title': f'изменит профиль {user_name}',
             'form': UserUpdateForm(instance=user_object)
         }
