@@ -4,7 +4,7 @@ from config.settings import DATABASE, USER, PASSWORD,HOST
 
 class Commmand(BaseCommand):
 
-    def handle(selfself, *args, **options):
+    def handle(self, *args, **options):
         ConnectionString = f'''DRIVER{{ODBC Driver 18 for SQL Server}};
                                SERVER={HOST};
                                DATABASE={DATABASE};
