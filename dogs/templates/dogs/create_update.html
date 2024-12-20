@@ -12,7 +12,9 @@
                     {% endif %}
                 </div>
                 <div class="card-body">
-
+                    <img class="card-img-top"
+                     src="{{ object.photo|dogs_media }}" width="300" height="320"
+                     alt="Card image cap">
                     {% csrf_token %}
                     {{ form.as_p }}
                     <button type="submit" class="btn btn-outline-success">
