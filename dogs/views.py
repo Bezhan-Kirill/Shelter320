@@ -74,12 +74,13 @@ def dog_detail_view(request, pk):
 def dog_update_view(request, pk):
     # dog_object = Dog.objects.get(pk=pk)
     dog_object = get_object_or_404(Dog, pk=pk)
-    if request.method == "POST":
+    print(request)
+    if request.method == 'POST':
         form = DogForm(request.POST, request.FILES, instance=dog_object)
         if form.is_valid():
             dog_object = form.save()
             dog_object.save()
-            return HttpResponseRedirect(reverse('dogs:detail_dogs', args={pk: pk}))
+            return HttpResponseRedirect(reverse('dogs:detail_dog', args={pk: pk}))
     context = {
         'object': dog_object,
         'form': DogForm(instance=dog_object)
