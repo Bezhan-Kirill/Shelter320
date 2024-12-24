@@ -2,7 +2,7 @@ from django.core.management import BaseCommand
 import pyodbc
 from config.settings import DATABASE, USER, PASSWORD,HOST
 
-class Commmand(BaseCommand):
+class Command(BaseCommand):
 
     def handle(self, *args, **options):
         ConnectionString = f'''DRIVER{{ODBC Driver 18 for SQL Server}};

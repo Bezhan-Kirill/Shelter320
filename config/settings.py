@@ -83,15 +83,15 @@ USER = os.getenv('MS_SQL_USER')
 PASSWORD = os.getenv('MS_SQL_KEY')
 HOST = os.getenv('MS_SQL_SERVER')
 DATABASE = os.getenv('MS_SQL_DATABASE')
-DATABASES ={
-    'default':{
-        'TrustServerCertificate':'yes',
-        'ENGINE':'mssql',
-        'NAME':DATABASE,
-        'USER':USER,
-        'PASSWORD':PASSWORD,
-        'SERVER':HOST,
-        'PORT':'',
+DATABASES = {
+    'default': {
+        'TrustServerCertificate': 'yes',
+        'ENGINE': 'mssql',
+        'NAME': DATABASE,
+        'USER': USER,
+        'PASSWORD': PASSWORD,
+        'SERVER': HOST,
+        'PORT': '',
         'OPTIONS': {
             'driver': 'ODBC Driver 18 for SQL Server',
             "extra_params": "Encrypt=yes;Trusted_Connection=yes;TrustServerCertificate=yes",
